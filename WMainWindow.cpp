@@ -1,6 +1,5 @@
 #include "WMainWindow.h"
 #include <QMessageBox>
-#include <QDebug>
 
 
 WMainWindow::WMainWindow() : QWidget() {
@@ -75,20 +74,9 @@ void WMainWindow::nnActivate() {
 		inputs.append((input & 0b00000010) != 0 ? 1 : 0);
 		inputs.append((input & 0b00000001) != 0 ? 1 : 0);
 
-		/*QString debugOut = "In: " + QString::number(input) + " - '" + input + "'; \"";
-		foreach(double input, inputs)
-			debugOut.append(QString::number(input) + ", ");
-		debugOut.chop(2);
-		qDebug() << debugOut + "\"";*/
-
 		QList<double> outputs = breinz->activate(inputs);
 		uchar chr = listToChar(outputs);
-
-		/*debugOut = "Out: " + QString::number(chr) + " - '" + chr + "'; \"";
-		foreach(double output, outputs)
-			debugOut.append(QString::number(output) + ", ");
-		debugOut.chop(2);
-		qDebug() << debugOut + "\"";*/
+		
 		if(chr == 255)
 			outTxt.append(input);
 		else
@@ -106,8 +94,7 @@ void WMainWindow::nnTrain() {
 			trainInputSet.append(c);
 			trainOutputSet.append(255);
 		}
-	qDebug() << trainInputSet;
-	qDebug() << trainOutputSet;
+	
 	for(int i = 0; i < LEARN_ITERATIONS; i++) {
 		int randomItem = rnd->generate() % trainInputSet.size();
 		QList<double> trainInputs = charToList(trainInputSet.at(randomItem).toLatin1());
